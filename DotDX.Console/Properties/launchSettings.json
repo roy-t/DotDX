@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DotDX.Console": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}
