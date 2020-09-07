@@ -10,7 +10,7 @@ namespace DotDX.Interop
         public void Initialize()
         {
             this.window = new Window();
-            this.window.Initialize(false, "Hello World!", new Vector3(0, 0, 0));
+            this.window.Initialize(false, "Hello World!", Vector3.Zero);
         }
 
         public void Shutdown() => this.window.Dispose();
