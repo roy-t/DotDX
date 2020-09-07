@@ -11,6 +11,7 @@ namespace DotDX
 			m_Camera = nullptr;
 			m_Model = nullptr;
 			m_ColorShader = nullptr;
+			m_TextureShader = nullptr;
 		}
 
 		bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
@@ -50,10 +51,24 @@ namespace DotDX
 			}
 
 			// Initialize the model object.
-			result = m_Model->Initialize(m_Direct3D->GetDevice());
+			result = m_Model->Initialize(m_Direct3D->GetDevice(), m_Direct3D->GetDeviceContext(), L"Resources/wall.tga");
 			if (!result)
 			{
 				MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
+				return false;
+			}
+			// Create the texture shader object.
+			m_TextureShader = new TextureShaderClass;
+			if (!m_TextureShader)
+			{
+				return false;
+			}
+
+			// Initialize the color shader object.
+			result = m_TextureShader->Initialize(m_Direct3D->GetDevice(), hwnd);
+			if (!result)
+			{
+				MessageBox(hwnd, L"Could not initialize the texture shader object.", L"Error", MB_OK);
 				return false;
 			}
 
@@ -78,6 +93,14 @@ namespace DotDX
 
 		void GraphicsClass::Shutdown()
 		{
+			// Release the texture shader object.
+			if (m_TextureShader)
+			{
+				m_TextureShader->Shutdown();
+				delete m_TextureShader;
+				m_TextureShader = 0;
+			}
+
 			// Release the color shader object.
 			if (m_ColorShader)
 			{
@@ -148,8 +171,8 @@ namespace DotDX
 			// Put the model vertex and index buffers on the graphics pipeline to prepare them for drawing.
 			m_Model->Render(m_Direct3D->GetDeviceContext());
 
-			// Render the model using the color shader.
-			result = m_ColorShader->Render(m_Direct3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix);
+			// Render the model using the texture shader.
+			result = m_TextureShader->Render(m_Direct3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix, m_Model->GetTexture());
 			if (!result)
 			{
 				return false;

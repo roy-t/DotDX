@@ -203,6 +203,8 @@ namespace DotDX
 			screenWidth = GetSystemMetrics(SM_CXSCREEN);
 			screenHeight = GetSystemMetrics(SM_CYSCREEN);
 
+			DWORD windowStyle = 0;
+
 			// Setup the screen settings depending on whether it is running in full screen or in windowed mode.
 			if (FULL_SCREEN)
 			{
@@ -219,6 +221,8 @@ namespace DotDX
 
 				// Set the position of the window to the top left corner.
 				posX = posY = 0;
+
+				windowStyle = WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_POPUP;
 			}
 			else
 			{
@@ -229,11 +233,13 @@ namespace DotDX
 				// Place the window in the middle of the screen.
 				posX = (GetSystemMetrics(SM_CXSCREEN) - screenWidth) / 2;
 				posY = (GetSystemMetrics(SM_CYSCREEN) - screenHeight) / 2;
+
+				windowStyle = WS_OVERLAPPEDWINDOW;
 			}
 
 			// Create the window with the screen settings and get the handle to it.
 			m_hwnd = CreateWindowEx(WS_EX_APPWINDOW, m_applicationName, m_applicationName,
-				WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_POPUP,
+				windowStyle,
 				posX, posY, screenWidth, screenHeight, NULL, NULL, m_hinstance, NULL);
 
 			// Bring the window up on the screen and set it as main focus.
@@ -242,7 +248,7 @@ namespace DotDX
 			SetFocus(m_hwnd);
 
 			// Hide the mouse cursor.
-			ShowCursor(false);
+			//ShowCursor(false);
 
 			return;
 		}
@@ -250,7 +256,7 @@ namespace DotDX
 		void SystemClass::ShutdownWindows()
 		{
 			// Show the mouse cursor.
-			ShowCursor(true);
+			//ShowCursor(true);
 
 			// Fix the display settings if leaving full screen mode.
 			if (FULL_SCREEN)

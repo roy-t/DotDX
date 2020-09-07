@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "Model.h"
 #include "ColorShader.h"
+#include "TextureShader.h"
 
 namespace DotDX
 {
@@ -32,6 +33,7 @@ namespace DotDX
 			CameraClass* m_Camera;
 			ModelClass* m_Model;
 			ColorShaderClass* m_ColorShader;
+			TextureShaderClass* m_TextureShader;
 		};
 	}
 }
