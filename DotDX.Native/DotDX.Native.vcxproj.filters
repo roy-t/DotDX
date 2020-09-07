@@ -21,6 +21,18 @@
     <ClInclude Include="Graphics.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="D3D.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorShader.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -33,6 +45,18 @@
       <Filter>Classes</Filter>
     </ClCompile>
     <ClCompile Include="Graphics.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="D3D.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorShader.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
   </ItemGroup>

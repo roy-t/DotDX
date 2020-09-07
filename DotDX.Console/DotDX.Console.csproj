@@ -10,4 +10,13 @@
     <ProjectReference Include="..\DotDX.Interop\DotDX.Interop.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Resources\color.ps.hlsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\color.vs.hlsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
