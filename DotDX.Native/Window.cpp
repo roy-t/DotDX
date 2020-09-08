@@ -25,13 +25,21 @@ namespace DotDX
 
             void Initialize(bool fullScreen, System::String^ title, System::Numerics::Vector3 vec)
             {
+                std::wstring unmanaged = msclr::interop::marshal_as<std::wstring>(title);                
+
                 pSystem = new SystemClass();
-                pSystem->Initialize();
-                pSystem->Run();
-                
-                //std::wstring unmanaged = msclr::interop::marshal_as<std::wstring>(title);
-                //pNativeWindow->Initialize(unmanaged.c_str());
-            }        
+                pSystem->Initialize(unmanaged.c_str());
+            }   
+
+            bool HandleMessages()
+            {
+                return pSystem->HandleMessages();
+            }
+
+            bool RenderFrame()
+            {
+                return pSystem->RenderFrame();
+            }
         };        
     }
 }

@@ -15,15 +15,15 @@ namespace DotDX
 		public:
 			SystemClass();
 
-			bool Initialize();
+			bool Initialize(const wchar_t* title);
 			void Shutdown();
-			void Run();
+			bool HandleMessages();
+			bool RenderFrame();
 
 			LRESULT CALLBACK MessageHandler(HWND, UINT, WPARAM, LPARAM);
 
-		private:
-			bool Frame();
-			void InitializeWindows(int&, int&);
+		private:			
+			void InitializeWindows(const wchar_t* title, int&, int&);
 			void ShutdownWindows();
 
 		private:

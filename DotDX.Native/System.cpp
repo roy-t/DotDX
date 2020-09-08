@@ -14,7 +14,7 @@ namespace DotDX
 			m_Graphics = 0;
 		}
 
-		bool SystemClass::Initialize()
+		bool SystemClass::Initialize(const wchar_t * title)
 		{
 			int screenWidth, screenHeight;
 			bool result;
@@ -25,7 +25,7 @@ namespace DotDX
 			screenHeight = 0;
 
 			// Initialize the windows api.
-			InitializeWindows(screenWidth, screenHeight);
+			InitializeWindows(title, screenWidth, screenHeight);
 
 			// Create the input object.  This object will be used to handle reading the keyboard input from the user.
 			m_Input = new InputClass;
@@ -77,47 +77,30 @@ namespace DotDX
 			return;
 		}
 
-		void SystemClass::Run()
+		bool SystemClass::HandleMessages()
 		{
 			MSG msg;
-			bool done, result;
-
 
 			// Initialize the message structure.
 			ZeroMemory(&msg, sizeof(MSG));
 
-			// Loop until there is a quit message from the window or the user.
-			done = false;
-			while (!done)
+			// Handle the windows messages.
+			if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 			{
-				// Handle the windows messages.
-				if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
-				{
-					TranslateMessage(&msg);
-					DispatchMessage(&msg);
-				}
-
-				// If windows signals to end the application then exit out.
-				if (msg.message == WM_QUIT)
-				{
-					done = true;
-				}
-				else
-				{
-					// Otherwise do the frame processing.
-					result = Frame();
-					if (!result)
-					{
-						done = true;
-					}
-				}
-
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
 			}
 
-			return;
+			// If windows signals to end the application then exit out.
+			if (msg.message == WM_QUIT)
+			{
+				return false;
+			}
+
+			return true;
 		}
 
-		bool SystemClass::Frame()
+		bool SystemClass::RenderFrame()
 		{
 			bool result;
 
@@ -166,7 +149,7 @@ namespace DotDX
 			}
 		}
 
-		void SystemClass::InitializeWindows(int& screenWidth, int& screenHeight)
+		void SystemClass::InitializeWindows(const wchar_t* title, int& screenWidth, int& screenHeight)
 		{
 			WNDCLASSEX wc;
 			DEVMODE dmScreenSettings;
@@ -238,7 +221,7 @@ namespace DotDX
 			}
 
 			// Create the window with the screen settings and get the handle to it.
-			m_hwnd = CreateWindowEx(WS_EX_APPWINDOW, m_applicationName, m_applicationName,
+			m_hwnd = CreateWindowEx(WS_EX_APPWINDOW, m_applicationName, title,
 				windowStyle,
 				posX, posY, screenWidth, screenHeight, NULL, NULL, m_hinstance, NULL);
 
